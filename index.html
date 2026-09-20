@@ -62,12 +62,6 @@
                     <span id="streakCount">1</span> Day Streak
                 </div>
 
-                <!-- Configure Links Button -->
-                <button onclick="toggleModal('configModal', true)" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center space-x-1 text-sm font-medium" title="Configure GitHub URLs">
-                    <i data-lucide="settings" class="w-5 h-5"></i>
-                    <span class="hidden md:inline">Configure Links</span>
-                </button>
-
                 <!-- Theme Toggle -->
                 <button id="themeToggleBtn" onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Toggle theme">
                     <i data-lucide="moon" id="moonIcon" class="w-5 h-5"></i>
@@ -86,16 +80,14 @@
                 <i data-lucide="book-open-check" class="w-80 h-80"></i>
             </div>
             <div class="relative z-10 max-w-2xl">
-                <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm uppercase tracking-wider mb-3 inline-block">Your Command Center</span>
+                <div class="flex items-center space-x-2 mb-3">
+                    <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm uppercase tracking-wider">Your Command Center</span>
+                </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Hello! Ready to keep improving your English?</h2>
-                <p class="text-blue-100 text-sm sm:text-base mb-4">Quickly access your interactive modules hosted on GitHub Pages or configure your custom URLs.</p>
+                <p class="text-blue-100 text-sm sm:text-base mb-4">Quickly access all your interactive study modules directly from one place.</p>
                 
                 <div class="flex flex-wrap gap-3">
-                    <button onclick="toggleModal('configModal', true)" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold rounded-lg text-sm shadow-md transition flex items-center space-x-2">
-                        <i data-lucide="link" class="w-4 h-4"></i>
-                        <span>Edit GitHub Links</span>
-                    </button>
-                    <button onclick="toggleNotesDrawer()" class="px-4 py-2 bg-blue-800/60 hover:bg-blue-800/80 text-white font-medium rounded-lg text-sm border border-blue-400/30 transition flex items-center space-x-2">
+                    <button onclick="toggleNotesDrawer()" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold rounded-lg text-sm shadow-md transition flex items-center space-x-2">
                         <i data-lucide="notebook-pen" class="w-4 h-4"></i>
                         <span>Open Notepad</span>
                     </button>
@@ -167,37 +159,6 @@
         </div>
     </div>
 
-    <!-- Config Modal (Edit GitHub URLs) -->
-    <div id="configModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
-            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="link-2" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
-                    <h3 class="font-bold text-slate-800 dark:text-slate-100">Configure GitHub Pages Links</h3>
-                </div>
-                <button onclick="toggleModal('configModal', false)" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto" id="configFormContainer">
-                <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter the URLs of your GitHub Pages repositories or sites. They will be saved in your browser for quick access.</p>
-                <!-- Form inputs generated via JS -->
-            </div>
-
-            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                <button onclick="addNewCustomTopic()" class="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center space-x-1">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    <span>+ Add new topic</span>
-                </button>
-                <div class="flex space-x-2">
-                    <button onclick="toggleModal('configModal', false)" class="px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-sm font-medium transition">Cancel</button>
-                    <button onclick="saveConfiguration()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-md transition">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Quick Notes Drawer -->
     <div id="notesDrawer" class="fixed bottom-4 right-4 z-40 w-80 sm:w-96 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 hidden flex-col overflow-hidden transition-all duration-300">
         <div class="px-4 py-3 bg-blue-600 text-white flex items-center justify-between">
@@ -232,8 +193,15 @@
     </div>
 
     <script>
-        // Initial Topics Default Structure
-        const DEFAULT_TOPICS = [
+        // =========================================================================
+        // ✏️ EDITA TUS ENLACES AQUÍ / EDIT YOUR GITHUB PAGES LINKS HERE
+        // =========================================================================
+        
+        // OPCIÓN 1: Pon tu usuario de GitHub aquí (ej. 'mi-usuario'):
+        const GITHUB_USERNAME = 'your-github-username'; 
+
+        // OPCIÓN 2: O edita directamente cada 'url' en la lista de abajo:
+        const topics = [
             {
                 id: 'dict',
                 title: 'Dictionary',
@@ -242,7 +210,7 @@
                 icon: 'book',
                 color: 'from-amber-500 to-orange-600',
                 badgeBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-                url: 'https://github.com'
+                url: https://maxpower-ops.github.io/English-Level-7-dictionary/
             },
             {
                 id: 'irregular',
@@ -252,7 +220,9 @@
                 icon: 'zap',
                 color: 'from-blue-500 to-cyan-600',
                 badgeBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
-                url: 'https://github.com'
+                url: GITHUB_USERNAME !== 'your-github-username' 
+                    ? `https://${GITHUB_USERNAME}.github.io/irregular-verbs` 
+                    : 'https://github.com'
             },
             {
                 id: 'pattern',
@@ -262,7 +232,9 @@
                 icon: 'layers',
                 color: 'from-purple-500 to-indigo-600',
                 badgeBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
-                url: 'https://github.com'
+                url: GITHUB_USERNAME !== 'your-github-username' 
+                    ? `https://${GITHUB_USERNAME}.github.io/pattern-verbs` 
+                    : 'https://github.com'
             },
             {
                 id: 'ed_verbs',
@@ -272,7 +244,9 @@
                 icon: 'volume-2',
                 color: 'from-emerald-500 to-teal-600',
                 badgeBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-                url: 'https://github.com'
+                url: GITHUB_USERNAME !== 'your-github-username' 
+                    ? `https://${GITHUB_USERNAME}.github.io/verbs-ending-ed` 
+                    : 'https://github.com'
             },
             {
                 id: 'confusing',
@@ -282,15 +256,14 @@
                 icon: 'help-circle',
                 color: 'from-rose-500 to-pink-600',
                 badgeBg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20',
-                url: 'https://github.com'
+                url: GITHUB_USERNAME !== 'your-github-username' 
+                    ? `https://${GITHUB_USERNAME}.github.io/confusing-verbs` 
+                    : 'https://github.com'
             }
         ];
 
-        let topics = [];
-
         // App Initialization
         window.onload = function() {
-            loadTopics();
             renderCards();
             loadNotes();
             updateStreak();
@@ -298,30 +271,19 @@
             lucide.createIcons();
         };
 
-        // Load topics from localStorage or fallback to defaults
-        function loadTopics() {
-            const saved = localStorage.getItem('english_hub_topics');
-            if (saved) {
-                try {
-                    topics = JSON.parse(saved);
-                } catch (e) {
-                    topics = DEFAULT_TOPICS;
-                }
-            } else {
-                topics = DEFAULT_TOPICS;
-            }
-        }
-
         // Render Resource Cards Grid
-        function renderCards(filterText = '') {
+        function renderCards(filterQuery = '') {
             const grid = document.getElementById('cardsGrid');
             const emptyState = document.getElementById('emptySearchState');
-            grid.innerHTML = '';
+            if (!grid) return;
 
+            grid.innerHTML = '';
+            
+            const q = filterQuery.toLowerCase().trim();
             const filtered = topics.filter(t => 
-                t.title.toLowerCase().includes(filterText.toLowerCase()) || 
-                t.description.toLowerCase().includes(filterText.toLowerCase()) ||
-                t.category.toLowerCase().includes(filterText.toLowerCase())
+                t.title.toLowerCase().includes(q) || 
+                t.category.toLowerCase().includes(q) || 
+                t.description.toLowerCase().includes(q)
             );
 
             if (filtered.length === 0) {
@@ -336,17 +298,15 @@
 
                 card.innerHTML = `
                     <div>
-                        <!-- Header with Icon & Category Badge -->
                         <div class="flex items-start justify-between mb-4">
                             <div class="p-3 bg-gradient-to-br ${topic.color} text-white rounded-xl shadow-md group-hover:scale-105 transition-transform">
                                 <i data-lucide="${topic.icon || 'link'}" class="w-6 h-6"></i>
                             </div>
-                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full border ${topic.badgeBg || 'bg-slate-100 text-slate-600 border-slate-200'}">
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full border ${topic.badgeBg}">
                                 ${topic.category}
                             </span>
                         </div>
 
-                        <!-- Title & Description -->
                         <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             ${topic.title}
                         </h4>
@@ -355,7 +315,6 @@
                         </p>
                     </div>
 
-                    <!-- Actions Bottom Row -->
                     <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2">
                         <button onclick="openInViewer('${topic.id}')" class="flex-1 py-2 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-medium transition flex items-center justify-center space-x-1.5">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
@@ -419,80 +378,6 @@
             document.getElementById('iframeLoader').classList.add('hidden');
         }
 
-        // Toggle Modals
-        function toggleModal(modalId, show) {
-            const modal = document.getElementById(modalId);
-            if (show) {
-                if (modalId === 'configModal') populateConfigForm();
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        // Fill Configuration Form Inputs
-        function populateConfigForm() {
-            const container = document.getElementById('configFormContainer');
-            container.innerHTML = `
-                <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter the full web address (e.g., <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded">https://your-username.github.io/your-repo</code>) for each topic:</p>
-            `;
-
-            topics.forEach((t, idx) => {
-                const group = document.createElement('div');
-                group.className = "space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700/50";
-                group.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                            ${t.title} <span class="text-[10px] font-normal text-slate-400">(${t.category})</span>
-                        </label>
-                        ${idx >= 5 ? `<button type="button" onclick="removeTopic(${idx})" class="text-red-500 hover:text-red-700 text-xs"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
-                    </div>
-                    <input type="url" id="url_input_${t.id}" value="${t.url}" placeholder="https://your-username.github.io/page" class="w-full px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                `;
-                container.appendChild(group);
-            });
-
-            lucide.createIcons();
-        }
-
-        // Add a brand new Custom Topic link
-        function addNewCustomTopic() {
-            const newId = 'custom_' + Date.now();
-            topics.push({
-                id: newId,
-                title: 'New Topic ' + (topics.length - 4),
-                category: 'Custom',
-                description: 'Custom link to your additional English study resources.',
-                icon: 'bookmark',
-                color: 'from-slate-600 to-slate-800',
-                badgeBg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20',
-                url: 'https://github.com'
-            });
-            populateConfigForm();
-        }
-
-        function removeTopic(index) {
-            topics.splice(index, 1);
-            populateConfigForm();
-        }
-
-        // Save Configuration to localStorage
-        function saveConfiguration() {
-            topics.forEach(t => {
-                const input = document.getElementById(`url_input_${t.id}`);
-                if (input) {
-                    t.url = input.value.trim() || 'https://github.com';
-                }
-            });
-
-            localStorage.setItem('english_hub_topics', JSON.stringify(topics));
-            toggleModal('configModal', false);
-            renderCards();
-            showToast('Links updated successfully!');
-        }
-
         // Notes Drawer Functions
         function toggleNotesDrawer() {
             const drawer = document.getElementById('notesDrawer');
@@ -525,17 +410,11 @@
         function updateStreak() {
             const lastDate = localStorage.getItem('english_hub_last_active');
             let streak = parseInt(localStorage.getItem('english_hub_streak') || '1', 10);
-            const today = new Date().toDateString();
-
             if (lastDate) {
                 const last = new Date(lastDate);
                 const diffDays = Math.floor((new Date() - last) / (1000 * 60 * 60 * 24));
-                
-                if (diffDays > 1) {
-                    streak = 1; // Reset streak if missed more than 1 day
-                }
+                if (diffDays > 1) streak = 1;
             }
-
             document.getElementById('streakCount').innerText = streak;
         }
 
@@ -575,17 +454,14 @@
                 document.documentElement.classList.add('dark');
                 localStorage.theme = 'dark';
                 document.getElementById('moonIcon').classList.add('hidden');
-                document.getElementById('sunIcon').classList.style.display = 'block';
                 document.getElementById('sunIcon').classList.remove('hidden');
             }
         }
 
-        // Custom Toast Notification
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
             toast.classList.remove('translate-y-20', 'opacity-0');
-            
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
@@ -593,3 +469,13 @@
     </script>
 </body>
 </html>
+```
+
+### ¿Cómo colocar tus enlaces ahora?
+
+Abre el archivo `.html` en cualquier editor de texto o en GitHub (si lo tienes subido ahí):
+
+1. **Opción Rápida:** En la línea `const GITHUB_USERNAME = 'your-github-username';`, reemplaza `'your-github-username'` por tu nombre de usuario exacto de GitHub (ejemplo: `'juanperez'`). El código construirá automáticamente los 5 enlaces.
+2. **Opción Personalizada:** Si cada repositorio tiene un nombre o dominio diferente, puedes reemplazar el valor de `url` directamente dentro de cada bloque en el arreglo `topics`.
+
+¡Al guardar el archivo HTML, funcionará de manera idéntica en tu computadora, tu celular y cualquier otro lugar sin importar el navegador!
