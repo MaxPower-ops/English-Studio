@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Study Hub | Learning Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full transition-colors duration-200 flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600 text-white rounded-xl shadow-lg shadow-blue-500/30">
+                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">English Study Hub</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">My GitHub Pages Resources</p>
+                </div>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <!-- Daily Streak Badge -->
+                <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded-full text-xs font-semibold">
+                    <i data-lucide="flame" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+                    <span id="streakCount">1</span> Day Streak
+                </div>
+
+                <!-- Configure Links Button -->
+                <button onclick="toggleModal('configModal', true)" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center space-x-1 text-sm font-medium" title="Configure GitHub URLs">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="hidden md:inline">Configure Links</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Toggle theme">
+                    <i data-lucide="moon" id="moonIcon" class="w-5 h-5"></i>
+                    <i data-lucide="sun" id="sunIcon" class="w-5 h-5 hidden text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Welcome Banner & Quick Info -->
+        <div class="mb-8 p-6 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl text-white shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                <i data-lucide="book-open-check" class="w-80 h-80"></i>
+            </div>
+            <div class="relative z-10 max-w-2xl">
+                <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm uppercase tracking-wider mb-3 inline-block">Your Command Center</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Hello! Ready to keep improving your English?</h2>
+                <p class="text-blue-100 text-sm sm:text-base mb-4">Quickly access your interactive modules hosted on GitHub Pages or configure your custom URLs.</p>
+                
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="toggleModal('configModal', true)" class="px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold rounded-lg text-sm shadow-md transition flex items-center space-x-2">
+                        <i data-lucide="link" class="w-4 h-4"></i>
+                        <span>Edit GitHub Links</span>
+                    </button>
+                    <button onclick="toggleNotesDrawer()" class="px-4 py-2 bg-blue-800/60 hover:bg-blue-800/80 text-white font-medium rounded-lg text-sm border border-blue-400/30 transition flex items-center space-x-2">
+                        <i data-lucide="notebook-pen" class="w-4 h-4"></i>
+                        <span>Open Notepad</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                <i data-lucide="layout-grid" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                <span>Your Study Topics</span>
+            </h3>
+
+            <div class="relative w-full sm:w-72">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="filterCards()" placeholder="Search topics or modules..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic cards will be populated via JavaScript -->
+        </div>
+
+        <!-- Empty state when no search match -->
+        <div id="emptySearchState" class="hidden text-center py-12">
+            <i data-lucide="search-x" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+            <p class="text-slate-600 dark:text-slate-400 font-medium">No topics found matching your search.</p>
+        </div>
+
+    </main>
+
+    <!-- Embedded Iframe Modal / Drawer (View Page inside the app) -->
+    <div id="viewerModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex-col justify-end sm:justify-center p-0 sm:p-4 transition-opacity">
+        <div class="bg-white dark:bg-slate-900 w-full h-full sm:h-[90vh] sm:max-w-6xl mx-auto sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-slate-800">
+            <!-- Viewer Header -->
+            <div class="px-4 py-3 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center space-x-3 overflow-hidden">
+                    <span id="viewerIcon" class="p-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-lg">
+                        <i data-lucide="globe" class="w-5 h-5"></i>
+                    </span>
+                    <div class="truncate">
+                        <h4 id="viewerTitle" class="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base truncate">Loading...</h4>
+                        <p id="viewerUrl" class="text-xs text-slate-500 dark:text-slate-400 truncate">https://github.com/...</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <a id="viewerExternalBtn" href="#" target="_blank" class="p-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition" title="Open in new tab">
+                        <i data-lucide="external-link" class="w-5 h-5"></i>
+                    </a>
+                    <button onclick="closeViewer()" class="p-2 text-slate-500 hover:text-red-600 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition" title="Close viewer">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Viewer Body (Iframe) -->
+            <div class="relative flex-grow bg-slate-100 dark:bg-slate-950">
+                <div id="iframeLoader" class="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-900 z-10">
+                    <div class="flex flex-col items-center space-y-3">
+                        <div class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Loading your GitHub page...</p>
+                    </div>
+                </div>
+                <iframe id="appFrame" class="w-full h-full border-0" onload="hideIframeLoader()"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Modal (Edit GitHub URLs) -->
+    <div id="configModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="link-2" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                    <h3 class="font-bold text-slate-800 dark:text-slate-100">Configure GitHub Pages Links</h3>
+                </div>
+                <button onclick="toggleModal('configModal', false)" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto" id="configFormContainer">
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter the URLs of your GitHub Pages repositories or sites. They will be saved in your browser for quick access.</p>
+                <!-- Form inputs generated via JS -->
+            </div>
+
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <button onclick="addNewCustomTopic()" class="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center space-x-1">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>+ Add new topic</span>
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="toggleModal('configModal', false)" class="px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-sm font-medium transition">Cancel</button>
+                    <button onclick="saveConfiguration()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-md transition">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Notes Drawer -->
+    <div id="notesDrawer" class="fixed bottom-4 right-4 z-40 w-80 sm:w-96 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 hidden flex-col overflow-hidden transition-all duration-300">
+        <div class="px-4 py-3 bg-blue-600 text-white flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="pen-tool" class="w-4 h-4"></i>
+                <span class="font-semibold text-sm">Quick Notepad</span>
+            </div>
+            <button onclick="toggleNotesDrawer()" class="text-white/80 hover:text-white">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <div class="p-3">
+            <textarea id="quickNotesArea" oninput="saveNotes()" placeholder="Take notes on new words, questions, or grammar rules here..." class="w-full h-40 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none dark:text-slate-100"></textarea>
+            <div class="flex justify-between items-center mt-2 text-[10px] text-slate-400">
+                <span id="notesStatus">Saved automatically</span>
+                <button onclick="clearNotes()" class="hover:text-red-500 transition">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 dark:text-slate-400">
+            <p>English Study Hub • Built to support your continuous learning journey</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium z-50 transition transform translate-y-20 opacity-0 flex items-center space-x-2 pointer-events-none">
+        <i data-lucide="check-circle" class="w-4 h-4 text-green-400 dark:text-green-600"></i>
+        <span id="toastMsg">Notification</span>
+    </div>
+
+    <script>
+        // Initial Topics Default Structure
+        const DEFAULT_TOPICS = [
+            {
+                id: 'dict',
+                title: 'Dictionary',
+                category: 'Vocabulary',
+                description: 'Search for words, meanings, phonetics, and practical usage examples.',
+                icon: 'book',
+                color: 'from-amber-500 to-orange-600',
+                badgeBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+                url: 'https://github.com'
+            },
+            {
+                id: 'irregular',
+                title: 'Irregular Verbs',
+                category: 'Verbs',
+                description: 'Interactive verb list covering V1 (Base), V2 (Past Simple), and V3 (Past Participle).',
+                icon: 'zap',
+                color: 'from-blue-500 to-cyan-600',
+                badgeBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+                url: 'https://github.com'
+            },
+            {
+                id: 'pattern',
+                title: 'Pattern Verbs',
+                category: 'Grammar',
+                description: 'Verb structures followed by Gerunds (-ing) or Infinitives (to + verb).',
+                icon: 'layers',
+                color: 'from-purple-500 to-indigo-600',
+                badgeBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
+                url: 'https://github.com'
+            },
+            {
+                id: 'ed_verbs',
+                title: 'Verbs Ending ED',
+                category: 'Pronunciation',
+                description: 'Rules and practice to master final /t/, /d/, and /ɪd/ regular verb sounds.',
+                icon: 'volume-2',
+                color: 'from-emerald-500 to-teal-600',
+                badgeBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+                url: 'https://github.com'
+            },
+            {
+                id: 'confusing',
+                title: 'Confusing Verbs',
+                category: 'Practical Use',
+                description: 'Guide to common confusing verb pairs like Make vs Do, Say vs Tell, Borrow vs Lend.',
+                icon: 'help-circle',
+                color: 'from-rose-500 to-pink-600',
+                badgeBg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20',
+                url: 'https://github.com'
+            }
+        ];
+
+        let topics = [];
+
+        // App Initialization
+        window.onload = function() {
+            loadTopics();
+            renderCards();
+            loadNotes();
+            updateStreak();
+            initDarkMode();
+            lucide.createIcons();
+        };
+
+        // Load topics from localStorage or fallback to defaults
+        function loadTopics() {
+            const saved = localStorage.getItem('english_hub_topics');
+            if (saved) {
+                try {
+                    topics = JSON.parse(saved);
+                } catch (e) {
+                    topics = DEFAULT_TOPICS;
+                }
+            } else {
+                topics = DEFAULT_TOPICS;
+            }
+        }
+
+        // Render Resource Cards Grid
+        function renderCards(filterText = '') {
+            const grid = document.getElementById('cardsGrid');
+            const emptyState = document.getElementById('emptySearchState');
+            grid.innerHTML = '';
+
+            const filtered = topics.filter(t => 
+                t.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                t.description.toLowerCase().includes(filterText.toLowerCase()) ||
+                t.category.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filtered.forEach(topic => {
+                const card = document.createElement('div');
+                card.className = "group bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between";
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Header with Icon & Category Badge -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="p-3 bg-gradient-to-br ${topic.color} text-white rounded-xl shadow-md group-hover:scale-105 transition-transform">
+                                <i data-lucide="${topic.icon || 'link'}" class="w-6 h-6"></i>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full border ${topic.badgeBg || 'bg-slate-100 text-slate-600 border-slate-200'}">
+                                ${topic.category}
+                            </span>
+                        </div>
+
+                        <!-- Title & Description -->
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            ${topic.title}
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
+                            ${topic.description}
+                        </p>
+                    </div>
+
+                    <!-- Actions Bottom Row -->
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2">
+                        <button onclick="openInViewer('${topic.id}')" class="flex-1 py-2 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-medium transition flex items-center justify-center space-x-1.5">
+                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                            <span>View here</span>
+                        </button>
+
+                        <a href="${topic.url}" target="_blank" onclick="recordActivity()" class="flex-1 py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-md shadow-blue-500/20 transition flex items-center justify-center space-x-1.5">
+                            <span>Open</span>
+                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value;
+            renderCards(query);
+        }
+
+        // Open Page inside Embedded Iframe Viewer
+        function openInViewer(id) {
+            const topic = topics.find(t => t.id === id);
+            if (!topic) return;
+
+            const modal = document.getElementById('viewerModal');
+            const iframe = document.getElementById('appFrame');
+            const loader = document.getElementById('iframeLoader');
+            const title = document.getElementById('viewerTitle');
+            const urlText = document.getElementById('viewerUrl');
+            const externalBtn = document.getElementById('viewerExternalBtn');
+
+            title.innerText = topic.title;
+            urlText.innerText = topic.url;
+            externalBtn.href = topic.url;
+
+            loader.classList.remove('hidden');
+            iframe.src = topic.url;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+
+            recordActivity();
+        }
+
+        function closeViewer() {
+            const modal = document.getElementById('viewerModal');
+            const iframe = document.getElementById('appFrame');
+            iframe.src = '';
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        function hideIframeLoader() {
+            document.getElementById('iframeLoader').classList.add('hidden');
+        }
+
+        // Toggle Modals
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
+            if (show) {
+                if (modalId === 'configModal') populateConfigForm();
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Fill Configuration Form Inputs
+        function populateConfigForm() {
+            const container = document.getElementById('configFormContainer');
+            container.innerHTML = `
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter the full web address (e.g., <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded">https://your-username.github.io/your-repo</code>) for each topic:</p>
+            `;
+
+            topics.forEach((t, idx) => {
+                const group = document.createElement('div');
+                group.className = "space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700/50";
+                group.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                            ${t.title} <span class="text-[10px] font-normal text-slate-400">(${t.category})</span>
+                        </label>
+                        ${idx >= 5 ? `<button type="button" onclick="removeTopic(${idx})" class="text-red-500 hover:text-red-700 text-xs"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
+                    </div>
+                    <input type="url" id="url_input_${t.id}" value="${t.url}" placeholder="https://your-username.github.io/page" class="w-full px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                `;
+                container.appendChild(group);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Add a brand new Custom Topic link
+        function addNewCustomTopic() {
+            const newId = 'custom_' + Date.now();
+            topics.push({
+                id: newId,
+                title: 'New Topic ' + (topics.length - 4),
+                category: 'Custom',
+                description: 'Custom link to your additional English study resources.',
+                icon: 'bookmark',
+                color: 'from-slate-600 to-slate-800',
+                badgeBg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20',
+                url: 'https://github.com'
+            });
+            populateConfigForm();
+        }
+
+        function removeTopic(index) {
+            topics.splice(index, 1);
+            populateConfigForm();
+        }
+
+        // Save Configuration to localStorage
+        function saveConfiguration() {
+            topics.forEach(t => {
+                const input = document.getElementById(`url_input_${t.id}`);
+                if (input) {
+                    t.url = input.value.trim() || 'https://github.com';
+                }
+            });
+
+            localStorage.setItem('english_hub_topics', JSON.stringify(topics));
+            toggleModal('configModal', false);
+            renderCards();
+            showToast('Links updated successfully!');
+        }
+
+        // Notes Drawer Functions
+        function toggleNotesDrawer() {
+            const drawer = document.getElementById('notesDrawer');
+            drawer.classList.toggle('hidden');
+            drawer.classList.toggle('flex');
+        }
+
+        function loadNotes() {
+            const notes = localStorage.getItem('english_hub_notes') || '';
+            document.getElementById('quickNotesArea').value = notes;
+        }
+
+        function saveNotes() {
+            const val = document.getElementById('quickNotesArea').value;
+            localStorage.setItem('english_hub_notes', val);
+            const status = document.getElementById('notesStatus');
+            status.innerText = 'Saving...';
+            setTimeout(() => {
+                status.innerText = 'Saved automatically';
+            }, 800);
+        }
+
+        function clearNotes() {
+            document.getElementById('quickNotesArea').value = '';
+            localStorage.setItem('english_hub_notes', '');
+            showToast('Notepad cleared');
+        }
+
+        // Streak Tracking Logic
+        function updateStreak() {
+            const lastDate = localStorage.getItem('english_hub_last_active');
+            let streak = parseInt(localStorage.getItem('english_hub_streak') || '1', 10);
+            const today = new Date().toDateString();
+
+            if (lastDate) {
+                const last = new Date(lastDate);
+                const diffDays = Math.floor((new Date() - last) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 1) {
+                    streak = 1; // Reset streak if missed more than 1 day
+                }
+            }
+
+            document.getElementById('streakCount').innerText = streak;
+        }
+
+        function recordActivity() {
+            const today = new Date().toDateString();
+            const lastDate = localStorage.getItem('english_hub_last_active');
+
+            if (lastDate !== today) {
+                let streak = parseInt(localStorage.getItem('english_hub_streak') || '0', 10);
+                streak += 1;
+                localStorage.setItem('english_hub_streak', streak.toString());
+                localStorage.setItem('english_hub_last_active', today);
+                document.getElementById('streakCount').innerText = streak;
+            }
+        }
+
+        // Dark Mode Logic
+        function initDarkMode() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('moonIcon').classList.remove('hidden');
+                document.getElementById('sunIcon').classList.add('hidden');
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                document.getElementById('moonIcon').classList.remove('hidden');
+                document.getElementById('sunIcon').classList.add('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.style.display = 'block';
+                document.getElementById('sunIcon').classList.remove('hidden');
+            }
+        }
+
+        // Custom Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
